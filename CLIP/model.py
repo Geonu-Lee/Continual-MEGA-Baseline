@@ -275,7 +275,6 @@ class CLIP(nn.Module):
         self.transformer.grad_checkpointing = enable
 
     def encode_image(self, image, out_layers, normalize: bool = False):
-        # print(image.shape)
         features = self.visual(image, out_layers)
         return F.normalize(features, dim=-1) if normalize else features
 
@@ -301,7 +300,6 @@ class CLIP(nn.Module):
 
         x = prompts + self.positional_embedding.to(cast_dtype)
         x = x.permute(1, 0, 2)  # NLD -> LND
-        # print("test", x.shape, len(deep_compound_prompts_text))
         if deep_compound_prompts_text is None:
             x = self.transformer(x)
         else:

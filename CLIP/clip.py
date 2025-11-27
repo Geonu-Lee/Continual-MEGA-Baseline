@@ -51,9 +51,7 @@ def list_models():
 
 
 def get_model_config(model_name):
-    # print(_MODEL_CONFIGS)
     if model_name in _MODEL_CONFIGS:
-        # print('herehere')
         return deepcopy(_MODEL_CONFIGS[model_name])
     else:
         return None
@@ -107,7 +105,6 @@ def create_model(
     if pretrained and pretrained.lower() == 'openai':
         logging.info(f'Loading pretrained {model_name} from OpenAI.')
         model_cfg = model_cfg or get_model_config(model_name)
-        # print(model_cfg['vision_cfg'])
         if model_cfg['vision_cfg']['image_size'] != img_size:
             model_cfg['vision_cfg']['image_size'] = img_size
             cast_dtype = get_cast_dtype(precision)
@@ -179,7 +176,6 @@ def create_model(
             if jit:
                 model = torch.jit.script(model)
     else:
-        # print('here')
         model_cfg = model_cfg or get_model_config(model_name)
         if model_cfg is not None:
             print(f'Loaded {model_name} model config.')

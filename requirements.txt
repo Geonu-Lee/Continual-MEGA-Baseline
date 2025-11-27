@@ -1,0 +1,10 @@
+torch==2.3.0
+torchvision==0.18.0
+numpy==1.26.3
+pillow==10.2.0
+scikit-learn==1.5.1
+tqdm==4.66.5
+opencv-python==4.10.0.84
+ftfy==6.2.3
+regex==2024.7.24
+wandb

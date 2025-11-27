@@ -2,7 +2,11 @@
 
 This repository contains the evaluation code for the Continual-Mega benchmark, submitted to ICLR 2026. \
 We provide the checkpoint files of the proposed model along with the evaluation code for the Continual-Mega benchmark. \
-The training code will be made publicly available at a later date.
+
+## Requirements
+```
+pip install -r requirements.txt
+```
 
 ## Datasets
 ### Download
@@ -27,6 +31,33 @@ data/
 Download Link: https://openaipublic.azureedge.net/clip/models/3035c92b350959924f9f00213499208652fc7ea050643e8b385c2dac08641f02/ViT-L-14-336px.pt
 
 Please download the CLIP pretrained weights file from the link above and place it in the `CLIP/ckpt` directory.
+
+## Training
+### Base Classes
+```
+sh train_scripts/train_base_classes.sh
+```
+
+### Scenario 1
+```
+sh train_scripts/scenario1_continual_5classes.sh # 5 Classes
+sh train_scripts/scenario1_continual_10classes.sh # 10 Classes
+sh train_scripts/scenario1_continual_30classes.sh # 30 Classes
+```
+
+### Scenario 2
+```
+sh train_scripts/scenario2_continual_5classes.sh # 5 Classes
+sh train_scripts/scenario2_continual_10classes.sh # 10 Classes
+sh train_scripts/scenario2_continual_30classes.sh # 30 Classes
+```
+
+### Scenario 3
+```
+sh train_scripts/scenario3_continual_5classes.sh # 5 Classes
+sh train_scripts/scenario3_continual_10classes.sh # 10 Classes
+sh train_scripts/scenario3_continual_30classes.sh # 30 Classes
+```
 
 ## Evaluation
 ### checkpoint files

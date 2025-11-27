@@ -24,14 +24,15 @@ class ClipAdapter(nn.Module):
 
 
 class CLIPAD(nn.Module):
-    def __init__(self, clip_model, features):
+    def __init__(self, clip_model, features, noise_sigma=0.25):
         super().__init__()
         self.clipmodel = clip_model
         self.image_encoder = clip_model.visual
         self.features = features
+        self.noise_sigma = noise_sigma
         self.adapters = nn.ModuleList( [ClipAdapter(1024, bottleneck=768) for i in range(len(features))] )
 
-    def forward(self, x):
+    def forward(self, x, is_noise=False):
         x = self.image_encoder.conv1(x)
         x = x.reshape(x.shape[0], x.shape[1], -1) 
         x = x.permute(0, 2, 1) 
@@ -47,11 +48,21 @@ class CLIPAD(nn.Module):
         x = x.permute(1, 0, 2)
 
         ada_patch_tokens = []
-        
+        anomaly_patch_tokens = []
+
         for i, res in enumerate(self.image_encoder.transformer.resblocks):
             x, _ = res(x, attn_mask=None)
             if (i + 1) in self.features:
                 adapt_med, adapt_out = self.adapters[self.features.index(i+1)](x)
+
+                # anomaly
+                if is_noise: 
+                    noise = torch.normal(0, self.noise_sigma, x.shape).to(x.device)
+
+                    anomaly_x = x + noise
+                    
+                    anomaly_med, _ = self.adapters[self.features.index(i+1)](anomaly_x)
+                    anomaly_patch_tokens.append(anomaly_med)
 
                 x = 0.9 * x + 0.1 * adapt_out
                 ada_patch_tokens.append(adapt_med)
@@ -59,6 +70,7 @@ class CLIPAD(nn.Module):
         x = x.permute(1, 0, 2)
 
         ada_patch_tokens = [ada_patch_tokens[t].permute(1, 0, 2) for t in range(len(ada_patch_tokens))]
+        anomaly_patch_tokens = [anomaly_patch_tokens[t].permute(1, 0, 2) for t in range(len(anomaly_patch_tokens))]
 
         pooled, tokens = self.image_encoder._global_pool(x)
         pooled = self.image_encoder.ln_post(pooled)
@@ -66,7 +78,7 @@ class CLIPAD(nn.Module):
         if self.image_encoder.proj is not None:
             pooled = pooled @ self.image_encoder.proj
 
-        return pooled, ada_patch_tokens
-
-
-        
+        if is_noise:
+            return pooled, ada_patch_tokens, anomaly_patch_tokens
+        else:
+            return pooled, ada_patch_tokens
