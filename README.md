@@ -1,7 +1,7 @@
 # Continual-Mega: A Large-scale Benchmark for Generalizable Continual Anomaly Detection
 
-This repository contains the evaluation code for the Continual-Mega benchmark, submitted to ICLR 2026. \
-We provide the checkpoint files of the proposed model along with the evaluation code for the Continual-Mega benchmark. \
+This repository contains the training and evaluation code for the Continual-Mega benchmark, submitted to ICLR 2026. \
+We provide the checkpoint files of the proposed model along with the training and evaluation code for the Continual-Mega benchmark.
 
 ## Requirements
 ```
@@ -38,21 +38,21 @@ Please download the CLIP pretrained weights file from the link above and place i
 sh train_scripts/train_base_classes.sh
 ```
 
-### Scenario 1
+### Continual Learning - Scenario 1
 ```
 sh train_scripts/scenario1_continual_5classes.sh # 5 Classes
 sh train_scripts/scenario1_continual_10classes.sh # 10 Classes
 sh train_scripts/scenario1_continual_30classes.sh # 30 Classes
 ```
 
-### Scenario 2
+### Continual Learning - Scenario 2
 ```
 sh train_scripts/scenario2_continual_5classes.sh # 5 Classes
 sh train_scripts/scenario2_continual_10classes.sh # 10 Classes
 sh train_scripts/scenario2_continual_30classes.sh # 30 Classes
 ```
 
-### Scenario 3
+### Continual Learning - Scenario 3
 ```
 sh train_scripts/scenario3_continual_5classes.sh # 5 Classes
 sh train_scripts/scenario3_continual_10classes.sh # 10 Classes
