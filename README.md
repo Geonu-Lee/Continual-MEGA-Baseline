@@ -1,6 +1,6 @@
 # Continual-Mega: A Large-scale Benchmark for Generalizable Continual Anomaly Detection
 
-This repository contains the training and evaluation code for the Continual-Mega benchmark, submitted to ICLR 2026. \
+This repository contains the training and evaluation code for the Continual-Mega benchmark. \
 We provide the checkpoint files of the proposed model along with the training and evaluation code for the Continual-Mega benchmark.
 
 ## Requirements
